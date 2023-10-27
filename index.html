@@ -1,0 +1,122 @@
+<html>
+
+    <body>
+        <style type='text/css'>
+            .embeddedServiceHelpButton .helpButton .uiButton {
+                background-color: #F19813;
+                font-family: "Arial", sans-serif;
+            }
+            .embeddedServiceHelpButton .helpButton .uiButton:focus {
+                outline: 1px solid #F19813;
+            }
+        </style>
+        
+        <script type='text/javascript' src='https://service.force.com/embeddedservice/5.0/esw.min.js'></script>
+        <script type='text/javascript'>
+            var initESW = function(gslbBaseURL) {
+                embedded_svc.settings.displayHelpButton = true; //Or false
+                embedded_svc.settings.language = ''; //For example, enter 'en' or 'en-US'
+        
+                //embedded_svc.settings.defaultMinimizedText = '...'; //(Defaults to Chat with an Expert)
+                //embedded_svc.settings.disabledMinimizedText = '...'; //(Defaults to Agent Offline)
+                
+                embedded_svc.settings.prepopulatedPrechatFields = {
+                    FirstName: 'Mike',
+                    LastName: 'Lestik',
+                    Email: 'mike@neuralflash.com',
+                    Subject: 'prepopulatedPrechatFields',
+                    ProductLine: 'Resource Management',
+                };
+                        
+                embedded_svc.settings.extraPrechatInfo = [
+                        {
+                            "entityName": "Case",
+                            "showOnCreate": true,
+                            "saveToTranscript": "CaseId",
+                            "entityFieldMaps": [
+                                {
+                                    "isExactMatch": false,
+                                    "fieldName": "Subject",
+                                    "doCreate": true,
+                                    "doFind": false,
+                                    "label": "Subject"
+                                }
+                                
+                                 
+                            ]
+                        }
+                    ];
+        
+                //embedded_svc.settings.loadingText = ''; //(Defaults to Loading)
+                //embedded_svc.settings.storageDomain = 'yourdomain.com'; //(Sets the domain for your deployment so that visitors can navigate subdomains during a chat session)
+        
+                // Settings for Chat
+                //embedded_svc.settings.directToButtonRouting = function(prechatFormData) {
+                    // Dynamically changes the button ID based on what the visitor enters in the pre-chat form.
+                    // Returns a valid button ID.
+                //};
+                 //Sets the auto-population of pre-chat form fields
+                //embedded_svc.settings.fallbackRouting = []; //An array of button IDs, user IDs, or userId_buttonId
+                //embedded_svc.settings.offlineSupportMinimizedText = '...'; //(Defaults to Contact Us)
+        
+                embedded_svc.settings.enabledFeatures = ['LiveAgent'];
+                embedded_svc.settings.entryFeature = 'LiveAgent';
+                
+                embedded_svc.settings.extraPrechatFormDetails = [
+                                {
+                                    "label":"Subject", 
+                                    "transcriptFields": ["Subject__c"]
+                                },
+                                {
+                                    "label":"Category", 
+                                    "transcriptFields": ["Product_Line__c"]
+                                }
+                                
+                            ];
+        
+                    document.addEventListener(
+                        "setCustomField",
+                        function(event) {
+                            console.log('inside event listener');
+                            console.log('extra pre chat form field',embedded_svc.settings.extraPrechatFormDetails[0]);
+                            console.log('event detail Subject',event.detail.subject);
+                            console.log('event detail productLine',event.detail.productLine);
+                            embedded_svc.settings.extraPrechatFormDetails[0].value = event.detail.subject;
+                            embedded_svc.settings.extraPrechatFormDetails[1].value = event.detail.productLine;
+                            // Fire startChat callback.
+                            event.detail.callback();
+                        },
+                        false
+                    );
+        
+                embedded_svc.init(
+                    'https://procoretechnologies--voicedev2.sandbox.my.salesforce.com',
+                    'https://procoretechnologies--voicedev2.sandbox.my.site.com/',
+                    gslbBaseURL,
+                    '00D770000000Mhb',
+                    'Test_Purpose_Only_Ankita',
+                    {
+                        baseLiveAgentContentURL: 'https://c.la5-c1cs-ia5.salesforceliveagent.com/content',
+                        deploymentId: '57277000000Gmbl',
+                        buttonId: '57377000000Gmcy',
+                        baseLiveAgentURL: 'https://d.la5-c1cs-ia5.salesforceliveagent.com/chat',
+                        eswLiveAgentDevName: 'Test_Purpose_Only_Ankita',
+                        isOfflineSupportEnabled: false
+                    }
+                );
+            };
+        
+            if (!window.embedded_svc) {
+                var s = document.createElement('script');
+                s.setAttribute('src', 'https://procoretechnologies--voicedev2.sandbox.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+                s.onload = function() {
+                    initESW(null);
+                };
+                document.body.appendChild(s);
+            } else {
+                initESW('https://service.force.com');
+            }
+        </script>
+    </body>
+
+</html>
