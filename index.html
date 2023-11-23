@@ -19,6 +19,16 @@
                 embedded_svc.settings.displayHelpButton = true; //Or false
                 embedded_svc.settings.language = ''; //For example, enter 'en' or 'en-US'
 
+                embedded_svc.settings.prepopulatedPrechatFields = {
+                    Subject: 'pre-populate 3 more fields test',
+                    FirstName: 'Anki',
+                    LastName: 'Gupta',
+                    URLContactOrigin: 'VoiceDev2 testing',
+                    ToolCategoryContactOrigin: 'Final Testing',
+                    ProjectId: '123456',
+                    AccountID: '0017700000Ksb6mAAB',
+                };
+
                 embedded_svc.settings.extraPrechatInfo = [
                     {
                         "entityName": "Case",
@@ -68,7 +78,23 @@
                             {
                                 "label":"Language", 
                                 "transcriptFields": ["Language__c"]
-                            }
+                            },
+                            {
+                                "label":"AccountId",
+                                "transcriptFields": ["AccountId"]
+                            },
+                            {
+                                "label":"URLContactOrigin",
+                                "transcriptFields": ["URL_Contact_Origin__c"]
+                            },
+                            {
+                                "label":"ToolCategoryContactOrigin",
+                                "transcriptFields": ["Tool_Category_Contact_Origin__c"]
+                            },
+                            {
+                              "label":"ProjectId",
+                              "transcriptFields": ["Project_Id__c"]
+                            },
                             
                         ];
 
@@ -83,6 +109,10 @@
                             embedded_svc.settings.extraPrechatFormDetails[0].value = event.detail.subject;
                             embedded_svc.settings.extraPrechatFormDetails[1].value = event.detail.productLine;
                             embedded_svc.settings.extraPrechatFormDetails[2].value = event.detail.language;
+                            embedded_svc.settings.extraPrechatFormDetails[3].value = event.detail.accountId;
+                            embedded_svc.settings.extraPrechatFormDetails[4].value = event.detail.urlContactOrigin;
+                            embedded_svc.settings.extraPrechatFormDetails[5].value = event.detail.toolCategoryContactOrigin;
+                            embedded_svc.settings.extraPrechatFormDetails[6].value = event.detail.projectId;
                             // Fire startChat callback.
                             event.detail.callback();
                         },
