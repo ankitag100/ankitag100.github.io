@@ -19,32 +19,24 @@
                 embedded_svc.settings.displayHelpButton = true; //Or false
                 embedded_svc.settings.language = ''; //For example, enter 'en' or 'en-US'
 
-                embedded_svc.settings.prepopulatedPrechatFields = {
-                    FirstName: 'Mike',
-                    LastName: 'Lestik',
-                    Email: 'mike@neuralflash.com',
-                    Subject: 'prepopulatedPrechatFields',
-                    ProductLine: 'Resource Management',
-                };
-
                 embedded_svc.settings.extraPrechatInfo = [
-                {
-                    "entityName": "Case",
-                    "showOnCreate": true,
-                    "saveToTranscript": "CaseId",
-                    "entityFieldMaps": [
-                        {
-                            "isExactMatch": false,
-                            "fieldName": "Subject",
-                            "doCreate": true,
-                            "doFind": false,
-                            "label": "Subject"
-                        }
-                        
-                         
-                    ]
-                }
-            ];
+                    {
+                        "entityName": "Case",
+                        "showOnCreate": true,
+                        "saveToTranscript": "CaseId",
+                        "entityFieldMaps": [
+                            {
+                                "isExactMatch": false,
+                                "fieldName": "Subject",
+                                "doCreate": true,
+                                "doFind": false,
+                                "label": "Subject"
+                            }
+                            
+                            
+                        ]
+                    }
+                ];
         
                 //embedded_svc.settings.defaultMinimizedText = '...'; //(Defaults to Chat with an Expert)
                 //embedded_svc.settings.disabledMinimizedText = '...'; //(Defaults to Agent Offline)
@@ -63,34 +55,40 @@
         
                 embedded_svc.settings.enabledFeatures = ['LiveAgent'];
                 embedded_svc.settings.entryFeature = 'LiveAgent';
-        
+
                 embedded_svc.settings.extraPrechatFormDetails = [
-                        {
-                            "label":"Subject", 
-                            "transcriptFields": ["Subject__c"]
+                            {
+                                "label":"Subject", 
+                                "transcriptFields": ["Subject__c"]
+                            },
+                            {
+                                "label":"Category", 
+                                "transcriptFields": ["Product_Line__c"]
+                            },
+                            {
+                                "label":"Language", 
+                                "transcriptFields": ["Language__c"]
+                            }
+                            
+                        ];
+
+                    document.addEventListener(
+                        "setCustomField",
+                        function(event) {
+                            console.log('inside event listener');
+                            console.log('extra pre chat form field',embedded_svc.settings.extraPrechatFormDetails[0]);
+                            console.log('event detail Subject',event.detail.subject);
+                            console.log('event detail productLine',event.detail.productLine);
+                            console.log('event detail productLine',event.detail.language);
+                            embedded_svc.settings.extraPrechatFormDetails[0].value = event.detail.subject;
+                            embedded_svc.settings.extraPrechatFormDetails[1].value = event.detail.productLine;
+                            embedded_svc.settings.extraPrechatFormDetails[2].value = event.detail.language;
+                            // Fire startChat callback.
+                            event.detail.callback();
                         },
-                        {
-                            "label":"Category", 
-                            "transcriptFields": ["Product_Line__c"]
-                        }
-                        
-                    ];
-
-                document.addEventListener(
-                    "setCustomField",
-                    function(event) {
-                        console.log('inside event listener');
-                        console.log('extra pre chat form field',embedded_svc.settings.extraPrechatFormDetails[0]);
-                        console.log('event detail Subject',event.detail.subject);
-                        console.log('event detail productLine',event.detail.productLine);
-                        embedded_svc.settings.extraPrechatFormDetails[0].value = event.detail.subject;
-                        embedded_svc.settings.extraPrechatFormDetails[1].value = event.detail.productLine;
-                        // Fire startChat callback.
-                        event.detail.callback();
-                    },
-                    false
-                );
-
+                        false
+                    );
+        
                 embedded_svc.init(
                     'https://procoretechnologies--voicedev2.sandbox.my.salesforce.com',
                     'https://procoretechnologies--voicedev2.sandbox.my.site.com/',
@@ -119,6 +117,8 @@
                 initESW('https://service.force.com');
             }
         </script>
+    
+        
     </body>
 
 </html>
