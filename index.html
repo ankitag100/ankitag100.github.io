@@ -105,7 +105,11 @@
                             console.log('extra pre chat form field',embedded_svc.settings.extraPrechatFormDetails[0]);
                             console.log('event detail Subject',event.detail.subject);
                             console.log('event detail productLine',event.detail.productLine);
-                            console.log('event detail productLine',event.detail.language);
+                            console.log('event detail language',event.detail.language);
+                            console.log('event detail accountId',event.detail.accountId);
+                            console.log('event detail urlContactOrigin',event.detail.urlContactOrigin);
+                            console.log('event detail toolCategoryContactOrigin',event.detail.toolCategoryContactOrigin);
+                            console.log('event detail projectId',event.detail.projectId);
                             embedded_svc.settings.extraPrechatFormDetails[0].value = event.detail.subject;
                             embedded_svc.settings.extraPrechatFormDetails[1].value = event.detail.productLine;
                             embedded_svc.settings.extraPrechatFormDetails[2].value = event.detail.language;
