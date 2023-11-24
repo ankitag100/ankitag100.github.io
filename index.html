@@ -29,6 +29,10 @@
                     AccountID: '0017700000KsbNhAAJ',
                 };
 
+                userContext = {
+
+                }
+
                 embedded_svc.settings.extraPrechatInfo = [
                     {
                         "entityName": "Case",
@@ -66,6 +70,8 @@
                 embedded_svc.settings.enabledFeatures = ['LiveAgent'];
                 embedded_svc.settings.entryFeature = 'LiveAgent';
 
+
+
                 embedded_svc.settings.extraPrechatFormDetails = [
                             {
                                 "label":"Subject", 
@@ -85,16 +91,18 @@
                             },
                             {
                                 "label":"URLContactOrigin",
-                                "transcriptFields": ["URL_Contact_Origin__c"]
+                                "transcriptFields": ["URL_Contact_Origin__c"],
+                                "value": "testing"
                             },
                             {
                                 "label":"ToolCategoryContactOrigin",
-                                "transcriptFields": ["Tool_Category_Contact_Origin__c"]
+                                "transcriptFields": ["Tool_Category_Contact_Origin__c"],
+                                "value": "testing"
                             },
                             {
-                              "label":"ProjectId",
-                              "transcriptFields": ["Project_Id__c"],
-                              "value": 'testing'
+                                "label":"ProjectId",
+                                "transcriptFields": ["Project_Id__c"],
+                                "value": "testing"
                             },
                             
                         ];
